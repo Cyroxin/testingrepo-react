@@ -1,7 +1,17 @@
 /* eslint-disable max-len */
 import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import {FlatList, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 const mediaArray = [
   {
@@ -28,7 +38,7 @@ const mediaArray = [
     key: '2',
     title: 'Title 3',
     description:
-      'Phasellus imperdiet nunc tincidunt molestie vestibulum. Donec dictum suscipit nibh. Sed vel velit ante. Aenean quis viverra magna. Praesent eget cursus urna. Ut rhoncus interdum dolor non tincidunt. Sed vehicula consequat facilisis. Pellentesque pulvinar sem nisl, ac vestibulum erat rhoncus id. ',
+      'hasellus imperdiet nunc tincidunt molestie vestibulum. Donec dictum suscipit nibh. Sed vel velit ante. Aenean quis viverra magna. Praesent eget cursus urna. Ut rhoncus interdum dolor non tincidunt. Sed vehicula consequat facilisis. Pellentesque pulvinar sem nisl, ac vestibulum erat rhoncus id. ',
     thumbnails: {
       w160: 'http://placekitten.com/160/167',
     },
@@ -38,21 +48,32 @@ const mediaArray = [
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+    <View
+      style={{
+        paddingTop: Platform.OS === 'android' ? 25 : 0,
+      }}
+    >
       <StatusBar style="auto" />
       <FlatList
         data={mediaArray}
+        style={{margin: 0, padding: 0}}
         renderItem={({item}) => {
           return (
-            <TouchableOpacity>
+            <TouchableOpacity
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                backgroundColor: 'lightgray',
+                marginBottom: 5,
+              }}
+            >
               <Image
-                style={{width: 100, height: 100}}
+                style={{width: 100, height: 150, margin: 10}}
                 source={{uri: item.thumbnails.w160}}
               />
-              <View>
-                <Text>{item.title}</Text>
-                <Text>{item.description}</Text>
+              <View style={{flex: 1, height: 150, margin: 10, overflow: 'hidden'}}>
+                <Text style={{fontWeight: 'bold'}}>{item.title}</Text>
+                <Text ellipsizeMode = 'head'>{item.description}</Text>
               </View>
             </TouchableOpacity>
           );
