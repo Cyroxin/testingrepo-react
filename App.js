@@ -1,14 +1,10 @@
 /* eslint-disable max-len */
 import {StatusBar} from 'expo-status-bar';
+import List from './components/List';
 import React from 'react';
 import {
-  FlatList,
-  Image,
   Platform,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+  SafeAreaView,
 } from 'react-native';
 
 const mediaArray = [
@@ -46,49 +42,23 @@ const mediaArray = [
 
 const App = () => {
   return (
-    <View
-      style={{
-        paddingTop: Platform.OS === 'android' ? 25 : 0,
-      }}
-    >
-      <StatusBar style="auto" />
-      <FlatList
-        data={mediaArray}
-        style={{margin: 0, padding: 0}}
-        renderItem={({item}) => {
-          return (
-            <TouchableOpacity
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                backgroundColor: 'lightgray',
-                marginBottom: 5,
-              }}
-            >
-              <Image
-                style={{width: 100, height: 150, margin: 10}}
-                source={{uri: item.thumbnails.w160}}
-              />
-              <View style={{flex: 1, height: 150, margin: 10, overflow: 'hidden'}}>
-                <Text style={{fontWeight: 'bold'}}>{item.title}</Text>
-                <Text>{item.description}</Text>
-              </View>
-            </TouchableOpacity>
-          );
-        }}
-      />
-    </View>
+    <SafeAreaView style={{paddingTop: Platform.OS === 'android' ? 25 : 0}}>
+      <StatusBar style='auto' />
+      <List mediaArray={mediaArray}/>
+    </SafeAreaView>
   );
 };
 
-// eslint-disable-next-line no-unused-vars
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+
+/*
+const App = () => {
+  return (
+    <SafeAreaView style={{paddingTop: Platform.OS === 'android' ? 25 : 0}}>
+      <StatusBar style='auto' />
+      <List data={mediaArray}/>
+    </SafeAreaView>
+  );
+};
+*/
 
 export default App;
