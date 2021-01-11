@@ -5,8 +5,6 @@ import {
   FlatList,
   Image,
   Platform,
-  SafeAreaView,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -38,7 +36,7 @@ const mediaArray = [
     key: '2',
     title: 'Title 3',
     description:
-      'hasellus imperdiet nunc tincidunt molestie vestibulum. Donec dictum suscipit nibh. Sed vel velit ante. Aenean quis viverra magna. Praesent eget cursus urna. Ut rhoncus interdum dolor non tincidunt. Sed vehicula consequat facilisis. Pellentesque pulvinar sem nisl, ac vestibulum erat rhoncus id. ',
+      'Phasellus imperdiet nunc tincidunt molestie vestibulum. Donec dictum suscipit nibh. Sed vel velit ante. Aenean quis viverra magna. Praesent eget cursus urna. Ut rhoncus interdum dolor non tincidunt. Sed vehicula consequat facilisis. Pellentesque pulvinar sem nisl, ac vestibulum erat rhoncus id. ',
     thumbnails: {
       w160: 'http://placekitten.com/160/167',
     },
@@ -73,7 +71,7 @@ const App = () => {
               />
               <View style={{flex: 1, height: 150, margin: 10, overflow: 'hidden'}}>
                 <Text style={{fontWeight: 'bold'}}>{item.title}</Text>
-                <Text ellipsizeMode = 'head'>{item.description}</Text>
+                <Text>{item.description}</Text>
               </View>
             </TouchableOpacity>
           );
@@ -83,6 +81,7 @@ const App = () => {
   );
 };
 
+// eslint-disable-next-line no-unused-vars
 const styles = StyleSheet.create({
   container: {
     flex: 1,
