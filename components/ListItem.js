@@ -2,6 +2,9 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Hidden file, which provides the api url as a string.
+import url from '../data/apiurl';
+
 // eslint-disable-next-line no-unused-vars
 const ListItem = (props) => {
   return (
@@ -15,7 +18,7 @@ const ListItem = (props) => {
     >
       <Image
         style={{width: 100, height: 150, margin: 10}}
-        source={{uri: props.singleMedia.thumbnails.w160}}
+        source={{uri: url + 'uploads/' + props.singleMedia.thumbnail}}
       />
       <View style={{flex: 1, height: 150, margin: 10, overflow: 'hidden'}}>
         <Text style={{fontWeight: 'bold'}}>{props.singleMedia.title}</Text>
