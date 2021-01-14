@@ -9,7 +9,7 @@ const List = (props) => {
     <FlatList
       data={props.mediaArray}
       keyExtractor={(item, index) => index.toString() }
-      renderItem={({ item }) => <ListItem singleMedia={item} />}
+      renderItem={({item}) => <ListItem singleMedia={item} />}
     />
   );
 };

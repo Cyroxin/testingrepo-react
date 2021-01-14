@@ -1,7 +1,6 @@
 /* eslint-disable object-curly-spacing */
 /* eslint-disable max-len */
 import {
-  setStatusBarNetworkActivityIndicatorVisible,
   StatusBar,
 } from 'expo-status-bar';
 import List from './components/List';
