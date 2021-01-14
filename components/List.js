@@ -8,13 +8,14 @@ const List = (props) => {
   return (
     <FlatList
       data={props.mediaArray}
-      renderItem={({item}) => <ListItem singleMedia={item} />}
+      keyExtractor={(item, index) => index.toString() }
+      renderItem={({ item }) => <ListItem singleMedia={item} />}
     />
   );
 };
 
 List.propTypes = {
-  mediaArray: PropTypes.object,
+  mediaArray: PropTypes.array,
 };
 
 export default List;
