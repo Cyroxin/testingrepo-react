@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // eslint-disable-next-line no-unused-vars
-const ListItem = props => {
+const ListItem = (props) => {
   return (
     <TouchableOpacity
       style={{
