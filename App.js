@@ -49,16 +49,4 @@ const App = () => {
   );
 };
 
-
-/*
-const App = () => {
-  return (
-    <SafeAreaView style={{paddingTop: Platform.OS === 'android' ? 25 : 0}}>
-      <StatusBar style='auto' />
-      <List data={mediaArray}/>
-    </SafeAreaView>
-  );
-};
-*/
-
 export default App;

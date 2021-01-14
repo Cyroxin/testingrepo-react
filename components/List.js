@@ -14,7 +14,7 @@ const List = (props) => {
 };
 
 List.propTypes = {
-  mediaArray: PropTypes.object,
+  mediaArray: PropTypes.array,
 };
 
 export default List;
