@@ -9,17 +9,41 @@ const ListItem = (props) => {
       style={{
         flex: 1,
         flexDirection: 'row',
-        backgroundColor: 'lightgray',
-        marginBottom: 5,
+        backgroundColor: '#EEEEEE',
+        margin: 10,
+        shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.3,
+        shadowRadius: 2,
+        elevation: 3,
+        borderRadius: 20,
+        shadowColor: 'black',
       }}
     >
-      <Image
-        style={{width: 100, height: 150, margin: 10}}
-        source={{uri: props.singleMedia.thumbnails.w160}}
-      />
-      <View style={{flex: 1, height: 150, margin: 10, overflow: 'hidden'}}>
-        <Text style={{fontWeight: 'bold'}}>{props.singleMedia.title}</Text>
-        <Text>{props.singleMedia.description}</Text>
+      <View style={{overflow: 'hidden'}}>
+        <Image
+          style={{
+            width: 100,
+            height: 100,
+            borderRadius: 100 / 2,
+            margin: 10,
+          }}
+          source={{uri: props.singleMedia.thumbnails.w160}}
+        />
+      </View>
+      <View style={{flex: 1, height: 100, margin: 10, overflow: 'hidden'}}>
+        <Text
+          style={{
+            fontWeight: 'bold',
+            fontSize: 20,
+            color: 'orange',
+          }}
+        >
+          {props.singleMedia.title}
+        </Text>
+        <Text style={{color: 'black'}}>{props.singleMedia.description}</Text>
       </View>
     </TouchableOpacity>
   );
