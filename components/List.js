@@ -3,19 +3,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 
-// eslint-disable-next-line no-unused-vars
-const List = (props) => {
+const List = ({mediaArray, navigation}) => {
   return (
     <FlatList
-      data={props.mediaArray}
-      keyExtractor={(item, index) => index.toString() }
-      renderItem={({item}) => <ListItem singleMedia={item} />}
+      data={mediaArray}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({item}) => (
+        <ListItem
+          // eslint-disable-next-line react/prop-types
+          navigation={navigation}
+          singleMedia={item} />
+      )}
     />
   );
 };
 
 List.propTypes = {
   mediaArray: PropTypes.array,
+  navigation: PropTypes.object,
 };
 
 export default List;

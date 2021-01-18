@@ -3,9 +3,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 // eslint-disable-next-line no-unused-vars
-const ListItem = (props) => {
+const ListItem = ({singleMedia, navigation}) => {
   return (
     <TouchableOpacity
+      onPress={() => {
+        navigation.navigate('Single');
+      }}
       style={{
         flex: 1,
         flexDirection: 'row',
@@ -15,11 +18,11 @@ const ListItem = (props) => {
     >
       <Image
         style={{width: 100, height: 150, margin: 10}}
-        source={{uri: props.singleMedia.thumbnails.w160}}
+        source={{uri: singleMedia.thumbnails.w160}}
       />
       <View style={{flex: 1, height: 150, margin: 10, overflow: 'hidden'}}>
-        <Text style={{fontWeight: 'bold'}}>{props.singleMedia.title}</Text>
-        <Text>{props.singleMedia.description}</Text>
+        <Text style={{fontWeight: 'bold'}}>{singleMedia.title}</Text>
+        <Text>{singleMedia.description}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -28,6 +31,7 @@ const ListItem = (props) => {
 
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
+  navigation: PropTypes.object,
 };
 
 
