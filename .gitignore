@@ -11,6 +11,3 @@ web-build/
 
 # macOS
 .DS_Store
-
-# api url
-data/apiurl.js
