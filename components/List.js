@@ -1,20 +1,20 @@
-import {FlatList} from 'react-native';
+import {FlatList, View} from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 import ListItem from './ListItem';
 
 const List = ({mediaArray, navigation}) => {
   return (
-    <FlatList
-      data={mediaArray}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({item}) => (
-        <ListItem
-          // eslint-disable-next-line react/prop-types
-          navigation={navigation}
-          singleMedia={item} />
-      )}
-    />
+    <View style={{flex: 1, width: '100%'}}>
+      <FlatList
+        data={mediaArray}
+        keyExtractor={(item, index) => index.toString()}
+        style={{flex: 1, width: '100%'}}
+        renderItem={({item}) => (
+          <ListItem navigation={navigation} singleMedia={item} />
+        )}
+      />
+    </View>
   );
 };
 

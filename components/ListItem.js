@@ -1,6 +1,7 @@
 import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
+import {url} from '../hooks/ApiHooks';
 
 // eslint-disable-next-line no-unused-vars
 const ListItem = ({singleMedia, navigation}) => {
@@ -18,9 +19,9 @@ const ListItem = ({singleMedia, navigation}) => {
     >
       <Image
         style={{width: 100, height: 150, margin: 10}}
-        source={{uri: singleMedia.thumbnails.w160}}
+        source={{uri: url + '/uploads/' + singleMedia.thumbnail}}
       />
-      <View style={{flex: 1, height: 150, margin: 10, overflow: 'hidden'}}>
+      <View style={{flex: 1, height: 150, margin: 10}}>
         <Text style={{fontWeight: 'bold'}}>{singleMedia.title}</Text>
         <Text>{singleMedia.description}</Text>
       </View>

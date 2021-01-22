@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, SafeAreaView, Text, Image} from 'react-native';
 
 import PropTypes from 'prop-types';
+import {url} from '../hooks/ApiHooks';
 
 const Single = ({route, navigation}) => {
   const {filename, title, description} = route.params;
@@ -9,7 +10,7 @@ const Single = ({route, navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <Image
-        source={{uri: filename}}
+        source={{uri: url + '/uploads/' + filename}}
         style={{
           width: '100%',
           height: '50%',
