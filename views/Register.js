@@ -1,25 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React, {} from 'react';
 import {KeyboardAvoidingView} from 'react-native';
 import PropTypes from 'prop-types';
-import {MainContext} from '../contexts/MainContext';
 
-import LoginForm from '../components/LoginForm';
+import RegisterForm from '../components/RegisterForm';
 
 import {Text, Button} from 'react-native-elements';
 import {ScrollView} from 'react-native';
 
-const Login = ({navigation}) => {
-  // props is needed for navigation
-  const {isLoggedIn} = useContext(MainContext);
-
-  useEffect(() => {
-    // IsLoggedIn will look for an active auth from context or storage.
-    if (isLoggedIn) {
-      console.log('Entering Home screen');
-      navigation.navigate('Home');
-    }
-  }, []);
-
+const Register = ({navigation}) => {
   return (
     <KeyboardAvoidingView
       style={{backgroundColor: '#fff', width: '100%', height: '100%'}}
@@ -31,14 +19,14 @@ const Login = ({navigation}) => {
         }}
       >
         <Text h1 style={{padding: 10}}>
-          Login
+          Register
         </Text>
-        <LoginForm navigation={navigation} />
+        <RegisterForm navigation={navigation} />
         <Button
-          title='No account yet?'
+          title='Already have an account?'
           type='clear'
           onPress={() => {
-            navigation.navigate('Register');
+            navigation.goBack();
           }}
         />
       </ScrollView>
@@ -46,8 +34,8 @@ const Login = ({navigation}) => {
   );
 };
 
-Login.propTypes = {
+Register.propTypes = {
   navigation: PropTypes.object,
 };
 
-export default Login;
+export default Register;

@@ -1,11 +1,24 @@
-import {View, Text, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import PropTypes from 'prop-types';
 import {url} from '../hooks/ApiHooks';
 
-// eslint-disable-next-line no-unused-vars
+import {Avatar, ListItem as NEListItem} from 'react-native-elements';
+
+
 const ListItem = ({singleMedia, navigation}) => {
   return (
+    <NEListItem bottomDivider onPress={() => {
+      navigation.navigate('Single', singleMedia);
+    }}>
+      <Avatar size="large"
+        source={{uri: url + '/uploads/' + singleMedia.thumbnail}} />
+      <NEListItem.Content>
+        <NEListItem.Title>{singleMedia.title}</NEListItem.Title>
+        <NEListItem.Subtitle>{singleMedia.description}</NEListItem.Subtitle>
+      </NEListItem.Content>
+      <NEListItem.Chevron />
+    </NEListItem>
+    /*
     <TouchableOpacity
       onPress={() => {
         navigation.navigate('Single', singleMedia);
@@ -26,6 +39,7 @@ const ListItem = ({singleMedia, navigation}) => {
         <Text>{singleMedia.description}</Text>
       </View>
     </TouchableOpacity>
+    */
   );
 };
 

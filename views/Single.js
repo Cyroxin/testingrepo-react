@@ -1,40 +1,44 @@
 import React from 'react';
-import {StyleSheet, SafeAreaView, Text, Image} from 'react-native';
+import {Platform} from 'react-native';
+import {Card} from 'react-native-elements';
 
 import PropTypes from 'prop-types';
 import {url} from '../hooks/ApiHooks';
+import {View} from 'react-native';
 
-const Single = ({route, navigation}) => {
+import MaterialCommunityIcons from
+  'react-native-vector-icons/MaterialCommunityIcons';
+
+
+const Single = ({route}) => {
+  console.log(Platform.OS);
   const {filename, title, description} = route.params;
-  console.log('image2:' + filename);
+  console.log('Showing: ' + url + '/uploads/' + filename);
   return (
-    <SafeAreaView style={styles.container}>
-      <Image
+    <Card>
+      <Card.Image
         source={{uri: url + '/uploads/' + filename}}
         style={{
-          width: '100%',
-          height: '50%',
           aspectRatio: 1,
-          resizeMode: 'contain'}}
+          resizeMode: 'contain',
+          width: '100%',
+          height: 400,
+        }}
       />
-      <Text style={styles.item}>{title}</Text>
-      <Text style={styles.item}>{description}</Text>
-    </SafeAreaView>
+      <View style={{marginLeft: 50}}>
+        <Card.Title style={{textAlign: 'left'}}>{title}</Card.Title>
+        <Card.FeaturedSubtitle style={{color: '#000'}}>
+          {description}
+        </Card.FeaturedSubtitle>
+        <MaterialCommunityIcons
+          style={{position: 'absolute', left: -50}}
+          name='image-outline'
+          size={26}
+        />
+      </View>
+    </Card>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 5,
-  },
-  item: {
-    padding: 5,
-  },
-});
 
 Single.propTypes = {
   route: PropTypes.object,

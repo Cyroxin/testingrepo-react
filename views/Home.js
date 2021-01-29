@@ -1,7 +1,7 @@
 import {StatusBar} from 'expo-status-bar';
 import List from '../components/List';
 import React, {} from 'react';
-import {Platform, SafeAreaView} from 'react-native';
+import {SafeAreaView} from 'react-native';
 
 
 import PropTypes from 'prop-types';
@@ -13,8 +13,7 @@ const Home = ({navigation}) => {
     <SafeAreaView style={{
       flex: 1,
       justifyContent: 'center',
-      alignItems: 'center',
-      paddingTop: Platform.OS === 'android' ? 25 : 0}}>
+      alignItems: 'center'}}>
       <StatusBar> </StatusBar>
       <List mediaArray={getMedia()} navigation={navigation} />
     </SafeAreaView>

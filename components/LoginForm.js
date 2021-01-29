@@ -1,4 +1,5 @@
-import {Button, View} from 'react-native';
+import {View} from 'react-native';
+import {Button} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
@@ -61,7 +62,7 @@ const Form = ({navigation}) => {
   const {inputs, handleInputChange} = useSignInForm();
 
   return (
-    <View>
+    <View style={{width: '100%', maxWidth: 400}}>
       <FormTextInput
         autoCapitalize='none'
         placeholder='username'

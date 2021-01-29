@@ -3,7 +3,7 @@
 // Hidden file, which provides the api url as a string.
 // Contains the following line: export default 'http://api.domain.name.here.com/api/';
 import {useEffect, useState} from 'react';
-import url from '../data/apiurl';
+import url from '../utils/apiurl';
 
 // Gets a list of media
 const getMedia = () => {
@@ -38,6 +38,50 @@ const getMedia = () => {
   }, []);
 
   return getMediaArray;
+};
+
+// Find tags by string. Returns empty array on not found.
+const searchTags = async (query) => {
+  const init = async () => {
+    console.log('Query: '+query);
+    try {
+      const response = await fetch(url + `/tags/${query}`);
+      const json = await response.json();
+
+      return json;
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  return await init();
+};
+
+// Gets url of profile picture from user id.
+const getProfilePicture = (userid) => {
+  const [getProfilePicture, setProfilePicture] = useState();
+
+  const init = async () => {
+    try {
+      const tags = await searchTags(`avatar_${userid}`);
+      console.log(tags);
+      if (
+        tags != undefined &&
+        tags[0] != undefined &&
+        tags[0].filename != undefined
+      ) {
+        setProfilePicture(url + '/uploads/' + tags[0].filename);
+      }
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  return getProfilePicture;
 };
 
 // Returns token if logged in.
@@ -89,6 +133,30 @@ const register = async (username, password, email, full_name = '') => {
 
   return await init();
 };
+
+// Returns true if exists, false otherwise.
+const userExists = async (username) => {
+  const init = async () => {
+    try {
+      const response = await fetch(url + `/users/username/${username}`, {
+        method: 'GET',
+        headers: {'Content-Type': 'application/json'},
+      });
+
+      const json = await response.json();
+
+
+      const available = json.available != undefined && json.available == true;
+
+      return !available;
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  return await init();
+};
+
 
 // Returns user data.
 // Either of a specific ID or logged in user's data.
@@ -155,4 +223,8 @@ const getUsers = async (token) => {
   return await init();
 };
 
-export {url, getUser, getUsers, getMedia, login, register};
+export {url,
+  getUser, getUsers, userExists,
+  getMedia, getProfilePicture,
+  searchTags,
+  login, register};

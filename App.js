@@ -7,7 +7,7 @@ import Navigator from './navigators/Navigator';
 
 const App = () => {
   return (
-    <MainProvider><Navigator /></MainProvider>
+    <MainProvider><Navigator></Navigator></MainProvider>
   );
 };
 
