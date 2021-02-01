@@ -13,6 +13,7 @@ import {MainContext} from '../contexts/MainContext';
 import MaterialCommunityIcons from
   'react-native-vector-icons/MaterialCommunityIcons';
 import Register from '../views/Register';
+import Upload from '../views/Upload';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -21,7 +22,7 @@ const TabScreen = () => {
   return (
     <Tab.Navigator
       tabBarOptions={{
-        labelStyle: {fontSize: 20},
+        labelStyle: { fontSize: 20 },
       }}
     >
       <Tab.Screen
@@ -32,7 +33,7 @@ const TabScreen = () => {
           labelStyle: {
             marginTop: 5,
           },
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name='home' color={color} size={26} />
           ),
         }}
@@ -44,10 +45,22 @@ const TabScreen = () => {
           title: 'Profile',
           labelStyle: {
             marginTop: 5,
-
           },
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name='account' color={color} size={26} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name='Upload'
+        component={Upload}
+        options={{
+          title: 'Upload',
+          labelStyle: {
+            marginTop: 5,
+          },
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name='image' color={color} size={26} />
           ),
         }}
       />

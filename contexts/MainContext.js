@@ -15,7 +15,7 @@ const MainProvider = ({children}) => {
       if (token != undefined) {
         console.log('Found context token: ', token);
         getUser(token).then((user) => {
-          setUser(user);
+          setUser({...user, token: token});
           setIsLoggedIn(true);
         });
       } else {

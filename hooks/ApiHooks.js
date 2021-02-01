@@ -4,6 +4,10 @@
 // Contains the following line: export default 'http://api.domain.name.here.com/api/';
 import {useEffect, useState} from 'react';
 import url from '../utils/apiurl';
+const appIdentifier = 'cyroxin';
+
+import axios from 'axios';
+import {Platform} from 'react-native';
 
 // Gets a list of media
 const getMedia = () => {
@@ -38,6 +42,111 @@ const getMedia = () => {
   }, []);
 
   return getMediaArray;
+};
+
+// Gets a list of media
+const getMyMedia = () => {
+  const [getMediaArray, setMediaArray] = useState();
+
+  const init = async () => {
+    try {
+      const response = await fetch(url + `/tags/${appIdentifier}`);
+      const json = await response.json();
+
+      // Add thumbnail to each json array element
+      json.forEach((value, index) => {
+        // eslint-disable-next-line no-prototype-builtins
+        if (value.hasOwnProperty('filename')) {
+          const thumbnail =
+            value.filename.substring(0, value.filename.lastIndexOf('.')) +
+              '-tn160.png' || value.filename;
+
+          json[index].thumbnail = thumbnail;
+          console.log(json[index]);
+        } else json[index].thumbnail = '';
+      });
+
+      setMediaArray(json);
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  return getMediaArray;
+};
+
+// Upload media with a title and optionally a description
+const uploadMedia = async (token, file, title, description = undefined) => {
+  const init = async () => {
+    const data = new FormData();
+    data.append('title', title);
+    description != null && description.length != 0 &&
+     data.append('description', description);
+    data.append('file', {
+      uri: Platform.OS === 'android' ? file : file.replace('file://', ''),
+      type: 'image/jpeg',
+      name: 'filename',
+    });
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'x-access-token': token,
+      },
+      data: data,
+      url: url + '/media',
+    };
+
+    try {
+      const response = await axios(options);
+      const data = response.data;
+      console.log(data);
+      if (data && data.file_id != undefined) {
+        setTimeout(async () => {
+          const idr = await uploadTag(token, response.file_id, appIdentifier);
+          console.log(idr);
+        }, 2000);
+        return data;
+      } else {
+        return data;
+      }
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  return await init();
+};
+
+// Find tags by string. Returns empty array on not found.
+const uploadTag = async (token, fileId, tag_) => {
+  const init = async () => {
+    try {
+      const response = await axios.post(
+          url + '/tags',
+          {
+            file_id: fileId,
+            tag: tag_,
+          },
+          {headers: {'x-access-token': token,
+            'content-type': 'application/json'}},
+      ).catch(console.log);
+
+      console.log(response);
+
+      const json = await response.json();
+
+      return json;
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  return await init();
 };
 
 // Find tags by string. Returns empty array on not found.
@@ -225,6 +334,5 @@ const getUsers = async (token) => {
 
 export {url,
   getUser, getUsers, userExists,
-  getMedia, getProfilePicture,
-  searchTags,
-  login, register};
+  getMedia, getMyMedia, uploadMedia, searchTags, uploadTag,
+  getProfilePicture, login, register};
