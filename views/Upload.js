@@ -48,6 +48,7 @@ const Upload = ({navigation}) => {
         .then((ret) => {
           if (ret == undefined) {
             console.log('Uploading returned nothing');
+            alert('Invalid upload, please check form.');
             return;
           }
           if (ret.message == 'File uploaded') {
@@ -136,8 +137,8 @@ const Upload = ({navigation}) => {
           title='Upload!'
           onPress={doUpload}
           disabled={
-            errors.title != undefined ||
-            errors.description != undefined
+            (errors.title != null ||
+            image == null)
           }
           style={{margin: 5}}
         />

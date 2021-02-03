@@ -5,7 +5,7 @@ import {SafeAreaView} from 'react-native';
 
 
 import PropTypes from 'prop-types';
-import {getMyMedia} from '../hooks/ApiHooks';
+import {getMedia} from '../hooks/ApiHooks';
 
 
 const Home = ({navigation}) => {
@@ -15,7 +15,7 @@ const Home = ({navigation}) => {
       justifyContent: 'center',
       alignItems: 'center'}}>
       <StatusBar> </StatusBar>
-      <List mediaArray={getMyMedia()} navigation={navigation} />
+      <List mediaArray={getMedia()} navigation={navigation} />
     </SafeAreaView>
   );
 };
