@@ -40,7 +40,7 @@ const Form = ({navigation}) => {
       return;
     }
 
-    setUser(userDetails);
+    setUser({...userDetails, token: token});
 
     AsyncStorage.setItem('userToken', token, (e) => {
       if (e != undefined) {

@@ -3,7 +3,8 @@
 import React, {useContext} from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import {NavigationContainer} from '@react-navigation/native';
+import {getFocusedRouteNameFromRoute,
+  NavigationContainer} from '@react-navigation/native';
 import Home from '../views/Home';
 import Profile from '../views/Profile';
 import Single from '../views/Single';
@@ -12,7 +13,6 @@ import {MainContext} from '../contexts/MainContext';
 
 import MaterialCommunityIcons from
   'react-native-vector-icons/MaterialCommunityIcons';
-import Register from '../views/Register';
 import Upload from '../views/Upload';
 
 const Tab = createBottomTabNavigator();
@@ -21,49 +21,29 @@ const Stack = createStackNavigator();
 const TabScreen = () => {
   return (
     <Tab.Navigator
-      tabBarOptions={{
-        labelStyle: { fontSize: 20 },
-      }}
+      screenOptions={({route}) => ({
+        tabBarIcon: ({color, size}) => {
+          let iconName;
+          switch (route.name) {
+            case 'Home':
+              iconName = 'home';
+              break;
+            case 'Profile':
+              iconName = 'account';
+              break;
+            case 'Upload':
+              iconName = 'image';
+              break;
+          }
+          return (
+            <MaterialCommunityIcons name={iconName} size={size} color={color} />
+          );
+        },
+      })}
     >
-      <Tab.Screen
-        name='Home'
-        component={Home}
-        options={{
-          title: 'Home',
-          labelStyle: {
-            marginTop: 5,
-          },
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name='home' color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Profile'
-        component={Profile}
-        options={{
-          title: 'Profile',
-          labelStyle: {
-            marginTop: 5,
-          },
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name='account' color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name='Upload'
-        component={Upload}
-        options={{
-          title: 'Upload',
-          labelStyle: {
-            marginTop: 5,
-          },
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name='image' color={color} size={26} />
-          ),
-        }}
-      />
+      <Tab.Screen name='Home' component={Home} />
+      <Tab.Screen name='Profile' component={Profile} />
+      <Tab.Screen name='Upload' component={Upload} />
     </Tab.Navigator>
   );
 };
@@ -74,13 +54,24 @@ const StackScreen = () => {
     <Stack.Navigator>
       {isLoggedIn ? (
         <>
-          <Stack.Screen name='Home' component={TabScreen} />
+          <Stack.Screen
+            name='Home'
+            component={TabScreen}
+            options={({route}) => ({
+              headerTitle: getFocusedRouteNameFromRoute(route),
+            })}
+          />
           <Stack.Screen name='Single' component={Single} />
         </>
       ) : (
         <>
-          <Stack.Screen name='Login' component={Login} />
-          <Stack.Screen name='Register' component={Register} />
+          <Stack.Screen
+            name='Login'
+            component={Login}
+            options={() => ({
+              headerShown: false,
+            })}
+          />
         </>
       )}
     </Stack.Navigator>

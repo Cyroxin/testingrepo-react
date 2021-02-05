@@ -10,6 +10,7 @@ import useUploadForm from '../hooks/UploadHooks';
 import * as ImagePicker from 'expo-image-picker';
 import {uploadMedia} from '../hooks/ApiHooks';
 import {ScrollView} from 'react-native-gesture-handler';
+import {SafeAreaView} from 'react-native';
 
 
 const Upload = ({navigation}) => {
@@ -89,7 +90,7 @@ const Upload = ({navigation}) => {
     console.log(result.uri);
 
     if (!result.cancelled) {
-      setImage( result.uri);
+      setImage(result.uri);
     }
   };
 
@@ -106,50 +107,50 @@ const Upload = ({navigation}) => {
   return (
     <ScrollView
       style={{backgroundColor: 'white', height: '100%'}}
-      contentContainerStyle={{alignItems: 'center'}}
     >
-      <Image
-        source={{uri: image}}
-        style={{width: 200, height: 200}}
-      ></Image>
-      <Input
-        autoCapitalize='none'
-        placeholder='title'
-        ref={titleInput}
-        errorStyle={{color: 'red'}}
-        errorMessage={errors.title}
-        onChangeText={(txt) => handleInputChange('title', txt)}
-        style={{textAlign: 'center'}}
-      />
-      <Input
-        autoCapitalize='none'
-        placeholder='description'
-        ref={descriptionInput}
-        errorStyle={{color: 'red'}}
-        errorMessage={errors.description}
-        onChangeText={(txt) => handleInputChange('description', txt)}
-        style={{textAlign: 'center'}}
-      />
-      <View style={{display: 'flex', flexDirection: 'row'}}>
-        <Button title='Select' onPress={() =>
-          getImage()} style={{margin: 5}} />
-        <Button
-          title='Upload!'
-          onPress={doUpload}
-          disabled={
-            (errors.title != null ||
-            image == null)
-          }
-          style={{margin: 5}}
+      <SafeAreaView style={{alignItems: 'center'}}>
+        <Image
+          source={{uri: image}}
+          style={{width: 200, height: 200}}
+        ></Image>
+        <Input
+          autoCapitalize='none'
+          placeholder='title'
+          ref={titleInput}
+          errorStyle={{color: 'red'}}
+          errorMessage={errors.title}
+          onChangeText={(txt) => handleInputChange('title', txt)}
+          style={{textAlign: 'center'}}
         />
-        <Button title='Clear' onPress={resetForm} style={{margin: 5}} />
-      </View>
+        <Input
+          autoCapitalize='none'
+          placeholder='description'
+          ref={descriptionInput}
+          errorStyle={{color: 'red'}}
+          errorMessage={errors.description}
+          onChangeText={(txt) => handleInputChange('description', txt)}
+          style={{textAlign: 'center'}}
+        />
+        <View style={{display: 'flex', flexDirection: 'row'}}>
+          <Button
+            title='Select'
+            onPress={() => getImage()}
+            style={{margin: 5}}
+          />
+          <Button
+            title='Upload!'
+            onPress={doUpload}
+            disabled={errors.title != null || image == null}
+            style={{margin: 5}}
+          />
+          <Button title='Clear' onPress={resetForm} style={{margin: 5}} />
+        </View>
+      </SafeAreaView>
     </ScrollView>
   );
 };
 
 Upload.propTypes = {
-  mediaArray: PropTypes.array,
   navigation: PropTypes.object,
 };
 

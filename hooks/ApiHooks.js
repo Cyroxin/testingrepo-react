@@ -80,17 +80,27 @@ const getMyMedia = () => {
 };
 
 // Upload media with a title and optionally a description
-const uploadMedia = async (token, file, title, description = undefined) => {
+const uploadMedia = async (token, file_, title, desc = undefined) => {
   const init = async () => {
     const data = new FormData();
     data.append('title', title);
-    description != null && description.length != 0 &&
-     data.append('description', description);
-    data.append('file', {
-      uri: Platform.OS === 'android' ? file : file.replace('file://', ''),
-      type: 'image/jpeg',
-      name: 'filename',
-    });
+    data.append('description', desc);
+
+    let filedata;
+
+    if (Platform.OS === 'web') {
+      const blob = await (await fetch(file_)).blob();
+      console.log(blob);
+
+      filedata = blob._data != undefined ? {...blob._data} : blob;
+    } else {
+      const type = 'image/'+file_.split('.').pop();
+      filedata = {uri: file_, type: type, name: 'filename'};
+    }
+
+    console.log(filedata);
+
+    data.append('file', filedata);
 
     const options = {
       method: 'POST',
@@ -99,6 +109,7 @@ const uploadMedia = async (token, file, title, description = undefined) => {
       },
       data: data,
       url: url + '/media',
+      redirect: 'follow',
     };
 
     try {
@@ -107,7 +118,7 @@ const uploadMedia = async (token, file, title, description = undefined) => {
       console.log(data);
       if (data && data.file_id != undefined) {
         setTimeout(async () => {
-          const idr = await uploadTag(token, response.file_id, appIdentifier);
+          const idr = await uploadTag(token, data.file_id, appIdentifier);
           console.log(idr);
         }, 2000);
         return data;
@@ -126,21 +137,26 @@ const uploadMedia = async (token, file, title, description = undefined) => {
 const uploadTag = async (token, fileId, tag_) => {
   const init = async () => {
     try {
-      const response = await axios.post(
-          url + '/tags',
-          {
-            file_id: fileId,
-            tag: tag_,
-          },
-          {headers: {'x-access-token': token,
-            'content-type': 'application/json'}},
-      ).catch(console.log);
+      const response = await fetch(url + '/tags', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-access-token': token,
+        },
+        body: `{"file_id": "${fileId}", "tag": "${tag_}"}`,
+      });
 
       console.log(response);
 
       const json = await response.json();
 
-      return json;
+      if (json.error) {
+        throw new Error(json.message + ': ' + json.error);
+      } else if (!response.ok) {
+        throw new Error('unknown error in posting tag');
+      } else {
+        return json;
+      }
     } catch (exp) {
       console.log(exp.message);
     }
