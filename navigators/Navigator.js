@@ -14,6 +14,7 @@ import {MainContext} from '../contexts/MainContext';
 import MaterialCommunityIcons from
   'react-native-vector-icons/MaterialCommunityIcons';
 import Upload from '../views/Upload';
+import Myfiles from '../views/MyFiles';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -41,9 +42,13 @@ const TabScreen = () => {
         },
       })}
     >
-      <Tab.Screen name='Home' component={Home} />
+      <Tab.Screen name='Home' component={Home} unmountOnBlur={true} />
       <Tab.Screen name='Profile' component={Profile} />
-      <Tab.Screen name='Upload' component={Upload} />
+      <Tab.Screen
+        name='Upload'
+        component={Upload}
+        initialParams={{edit: 0}}
+      />
     </Tab.Navigator>
   );
 };
@@ -62,6 +67,8 @@ const StackScreen = () => {
             })}
           />
           <Stack.Screen name='Single' component={Single} />
+          <Stack.Screen name='MyFiles' component={Myfiles} />
+          <Stack.Screen name='Upload' component={Upload} />
         </>
       ) : (
         <>

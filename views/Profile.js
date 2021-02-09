@@ -18,6 +18,10 @@ const Profile = (props) => {
     props.navigation.navigate('Login');
   };
 
+  const myfiles = () => {
+    props.navigation.navigate('MyFiles');
+  };
+
   const {setIsLoggedIn, user} = useContext(MainContext);
 
 
@@ -48,6 +52,8 @@ const Profile = (props) => {
         <Card.Divider style={{marginVertical: 5}}></Card.Divider>
         {user.full_name != undefined && <Text>Name: {user.full_name}</Text>}
         <Text>Email: {user.email}</Text>
+        <Card.Divider style={{marginVertical: 5}}></Card.Divider>
+        <Button title={'MyFiles'} onPress={myfiles} />
         <Card.Divider style={{marginVertical: 5}}></Card.Divider>
         <Button title={'Logout'} onPress={logout} />
       </Card>

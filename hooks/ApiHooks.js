@@ -79,6 +79,41 @@ const getMyMedia = () => {
   return getMediaArray;
 };
 
+// Gets a list of a users media
+const getUserMedia = (userId) => {
+  const [getMediaArray, setMediaArray] = useState();
+
+  const init = async () => {
+    try {
+      const response = await fetch(url + `/media/user/${userId}`);
+      const json = await response.json();
+
+      // Add thumbnail to each json array element
+      json.forEach((value, index) => {
+        // eslint-disable-next-line no-prototype-builtins
+        if (value.hasOwnProperty('filename')) {
+          const thumbnail =
+            value.filename.substring(0, value.filename.lastIndexOf('.')) +
+              '-tn160.png' || value.filename;
+
+          json[index].thumbnail = thumbnail;
+          console.log(json[index]);
+        } else json[index].thumbnail = '';
+      });
+
+      setMediaArray(json);
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  useEffect(() => {
+    init();
+  }, []);
+
+  return getMediaArray;
+};
+
 // Upload media with a title and optionally a description
 const uploadMedia = async (token, file_, title, desc = undefined) => {
   const init = async () => {
@@ -125,6 +160,55 @@ const uploadMedia = async (token, file_, title, desc = undefined) => {
       } else {
         return data;
       }
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  return await init();
+};
+
+const updateMedia = async (token, mediaId,
+    title = undefined, desc = undefined) => {
+  const init = async () => {
+    const data = {title: title, description: desc};
+
+    const options = {
+      method: 'PUT',
+      headers: {
+        'x-access-token': token,
+      },
+      data: data,
+      url: url + `/media/${mediaId}`,
+    };
+
+    try {
+      const response = await axios(options);
+      const data = response.data;
+      console.log(data);
+      return data;
+    } catch (exp) {
+      console.log(exp.message);
+    }
+  };
+
+  return await init();
+};
+
+const deleteMedia = async (token, fileId) => {
+  const init = async () => {
+    const headers = new Headers();
+    headers.append('x-access-token', token);
+
+    try {
+      const response = await fetch(url + `/media/${fileId}`, {
+        method: 'DELETE',
+        headers: headers,
+      });
+
+      const json = await response.json();
+
+      return json;
     } catch (exp) {
       console.log(exp.message);
     }
@@ -350,5 +434,6 @@ const getUsers = async (token) => {
 
 export {url,
   getUser, getUsers, userExists,
-  getMedia, getMyMedia, uploadMedia, searchTags, uploadTag,
+  getMedia, getMyMedia, getUserMedia, uploadMedia, deleteMedia, updateMedia,
+  searchTags, uploadTag,
   getProfilePicture, login, register};

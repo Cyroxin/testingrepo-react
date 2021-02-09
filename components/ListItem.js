@@ -1,45 +1,66 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import PropTypes from 'prop-types';
-import {url} from '../hooks/ApiHooks';
+import {deleteMedia, url} from '../hooks/ApiHooks';
 
-import {Avatar, ListItem as NEListItem} from 'react-native-elements';
+import {Avatar, Button,
+  ListItem as NEListItem} from 'react-native-elements';
+import {MainContext} from '../contexts/MainContext';
 
 
-const ListItem = ({singleMedia, navigation}) => {
+const ListItem = ({singleMedia, navigation, edit}) => {
+  const {user} = useContext(MainContext);
+
   return (
-    <NEListItem bottomDivider onPress={() => {
-      navigation.navigate('Single', singleMedia);
-    }}>
-      <Avatar size="large"
-        source={{uri: url + '/uploads/' + singleMedia.thumbnail}} />
+    <NEListItem
+      bottomDivider
+      onPress={
+        edit ?
+          () => {} :
+          () => {
+            navigation.navigate('Single', singleMedia);
+          }
+      }
+    >
+      <Avatar
+        size='large'
+        source={{uri: url + '/uploads/' + singleMedia.thumbnail}}
+      />
       <NEListItem.Content>
         <NEListItem.Title>{singleMedia.title}</NEListItem.Title>
         <NEListItem.Subtitle>{singleMedia.description}</NEListItem.Subtitle>
       </NEListItem.Content>
-      <NEListItem.Chevron />
-    </NEListItem>
-    /*
-    <TouchableOpacity
-      onPress={() => {
-        navigation.navigate('Single', singleMedia);
-      }}
-      style={{
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'lightgray',
-        marginBottom: 5,
-      }}
-    >
-      <Image
-        style={{width: 100, height: 150, margin: 10}}
-        source={{uri: url + '/uploads/' + singleMedia.thumbnail}}
+
+      {edit && (
+        <Button
+          title='Modify'
+          onPress={() => {
+            navigation.navigate('Upload', {edit: singleMedia.file_id});
+          }}
+        />
+      )}
+
+      {edit && (
+        <Button
+          title='Delete'
+          onPress={async () => {
+            const resp = await deleteMedia(user.token, singleMedia.file_id);
+            alert(resp.message);
+            navigation.navigate('Home');
+          }}
+        />
+      )}
+
+      {/* View item => Chevron */}
+      <NEListItem.Chevron
+        onPress={
+          !edit ?
+            () => {} :
+            () => {
+              navigation.navigate('Single', singleMedia);
+            }
+        }
       />
-      <View style={{flex: 1, height: 150, margin: 10}}>
-        <Text style={{fontWeight: 'bold'}}>{singleMedia.title}</Text>
-        <Text>{singleMedia.description}</Text>
-      </View>
-    </TouchableOpacity>
-    */
+    </NEListItem>
   );
 };
 
@@ -47,6 +68,7 @@ const ListItem = ({singleMedia, navigation}) => {
 ListItem.propTypes = {
   singleMedia: PropTypes.object,
   navigation: PropTypes.object,
+  edit: PropTypes.bool,
 };
 
 
